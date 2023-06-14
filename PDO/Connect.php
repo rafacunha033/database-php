@@ -30,7 +30,7 @@ class Connect
         $this->password = DB_CONFIG['password'];
     }
 
-    public function connect(): void
+    public function connect(): PDO
     {
         $this->setConfig();
         
@@ -40,15 +40,17 @@ class Connect
                 ,$this->username
                 ,$this->password
             );
+
+            return $this->conn;
         } catch(PDOException $error) {
             $this->errors = $error->getMessage();
         }
     }
 
-    public function errors()
+    public function errors(): null|array
     {
         if (empty($this->errors)) {
-            return $this;
+            return null;
         }
 
         return $this->errors;
